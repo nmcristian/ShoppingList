@@ -7,9 +7,9 @@ module.exports = {
                 primaryKey: true,
                 references: {
                     model: 'ShoppingLists',
-                    key: 'id',
-                    onDelete: 'CASCADE'
+                    key: 'id'
                 },
+                onDelete: 'CASCADE',
                 allowNull: false
             },
             item_id: {
@@ -19,6 +19,7 @@ module.exports = {
                     model: 'Items',
                     key: 'id'
                 },
+                onDelete: 'CASCADE',
                 allowNull: false
             },
             quantity: {

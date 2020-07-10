@@ -84,6 +84,4 @@ ShoppingList.init(
 Item.belongsToMany(ShoppingList, { through: ShoppingListItem, foreignKey: 'item_id', otherKey: 'shopping_list_id', as: 'shoppingLists' })
 ShoppingList.belongsToMany(Item, { through: ShoppingListItem, foreignKey: 'shopping_list_id', otherKey: 'item_id', as: 'items' })
 
-ShoppingListItem.belongsTo(ShoppingList, { targetKey: 'id', foreignKey: 'shopping_list_id', as: 'shoppingList', onDelete: 'cascade' })
-
 export default ShoppingList;

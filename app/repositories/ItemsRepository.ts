@@ -27,11 +27,6 @@ export default class ItemsRepository {
     }
 
     public async delete(id: number) {
-        await ShoppingListItem.destroy({
-            where: {
-                itemId: id
-            }
-        });
         return await Item.destroy({
             where: {
                 id: id
