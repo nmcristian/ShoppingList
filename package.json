@@ -25,6 +25,7 @@
     "ts-node": "^8.3.0",
     "typescript": "^3.7",
     "lodash": "^4.17.15",
+    "jsonwebtoken": "^8.5.1",
     "bcrypt": "^3.0.7"
   },
   "devDependencies": {

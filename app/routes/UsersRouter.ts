@@ -16,6 +16,19 @@ UsersRouter.post('/signup', async (req: express.Request, res: express.Response) 
     }
 });
 
+// Log in as user
+UsersRouter.post('/signin', async (req: express.Request, res: express.Response) => {
+    try {
+        res.status(201).json(await new UsersController().signIn(req.body));
+
+    } catch (err) {
+        res.status(err.status || 500).send({
+            message: err.message || "The request was not completed due to an internal error on the server side.",
+            params: { "requestBody": req.body}
+        });
+    }
+});
+
 // GET user by id
 UsersRouter.get('/:userId', async (req: express.Request, res: express.Response) => {
     try {
