@@ -66,7 +66,7 @@ ShoppingList.init(
                         model: Item,
                         as: 'items',
                         through: {
-                            attributes: []
+                            attributes: ['quantity']
                         },
                         required: false
                     }

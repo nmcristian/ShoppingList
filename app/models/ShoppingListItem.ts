@@ -8,6 +8,7 @@ import Item from "./Item"
 class ShoppingListItem extends Model {
     public shoppingListId: number;
     public itemId: number;
+    public quantity: number;
     public readonly createdAt: Date;
     public readonly updatedAt: Date;
 
@@ -37,6 +38,11 @@ ShoppingListItem.init(
                 model: 'Items',
                 key: 'id'
             },
+            allowNull: false
+        },
+        quantity: {
+            type: DataTypes.INTEGER,
+            field: 'quantity',
             allowNull: false
         },
         createdAt: {
