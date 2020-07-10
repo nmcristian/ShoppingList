@@ -1,9 +1,10 @@
 import ItemsRepository from '../repositories/ItemsRepository';
 import Item from "../models/Item";
+import {ItemInterface} from "../interfaces/ItemInterface";
 
 export default class ItemsService {
 
-    public async create(itemData) {
+    public async create(itemData: ItemInterface) {
         try {
             let newItem = Item.build(itemData);
             return await new ItemsRepository().save(newItem);
@@ -28,10 +29,9 @@ export default class ItemsService {
         }
     }
 
-    public async update(itemData, id: number) {
+    public async update(itemData: ItemInterface, id: number) {
         try {
-            itemData.id = id;
-            return await new ItemsRepository().update(itemData);
+            return await new ItemsRepository().update(itemData, id);
         } catch (err) {
             throw err;
         }

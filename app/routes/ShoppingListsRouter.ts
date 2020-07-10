@@ -57,7 +57,11 @@ ShoppingListsRouter.put('/:id', async (req: express.Request, res: express.Respon
 // Add item to the ShoppingList or update its quantity
 ShoppingListsRouter.put('/:shoppingListId/add_item', async (req: express.Request, res: express.Response) => {
     try {
-        res.status(200).json(await new ShoppingListsController().addOrUpdateItem(parseInt(req.params.shoppingListId), req.body));
+        res.status(200).json(await new ShoppingListsController().addOrUpdateItem({
+            shoppingListId: parseInt(req.params.shoppingListId),
+            itemId: parseInt(req.body.itemId),
+            quantity: parseInt(req.body.quantity)
+        }));
 
     } catch (err) {
         res.status(err.status || 500).send({

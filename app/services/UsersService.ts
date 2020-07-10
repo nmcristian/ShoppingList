@@ -3,10 +3,11 @@ import * as bcrypt from 'bcrypt';
 import UsersRepository from "../repositories/UsersRepository";
 
 import User from "../models/User";
+import {UserInterface} from "../interfaces/UserInterface";
 
 export default class UsersService {
 
-    public async createUser(userData) {
+    public async createUser(userData: UserInterface) {
         var newUser = User.build(userData);
         let salt = await bcrypt.genSalt(10);
         newUser.password = await bcrypt.hash(userData.password, salt);

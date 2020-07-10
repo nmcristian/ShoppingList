@@ -1,8 +1,9 @@
 import ItemsService from '../services/ItemsService';
+import {ItemInterface} from "../interfaces/ItemInterface";
 
 export default class ShoppingListsController {
 
-    public async create(itemData) {
+    public async create(itemData: ItemInterface) {
         try {
             return await new ItemsService().create(itemData);
         } catch (err) {
@@ -26,7 +27,7 @@ export default class ShoppingListsController {
         }
     }
 
-    public async update(itemData, id: number) {
+    public async update(itemData: ItemInterface, id: number) {
         try {
             return await new ItemsService().update(itemData, id);
         } catch (err) {

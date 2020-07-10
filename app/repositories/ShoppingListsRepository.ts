@@ -26,7 +26,6 @@ export default class ShoppingListsRepository {
     }
 
     public async update(shoppingListData, id: number) {
-        return shoppingListData;
         return await ShoppingList.update(shoppingListData, {
             where: {id: id}
         });
@@ -67,6 +66,11 @@ export default class ShoppingListsRepository {
     }
 
     public async delete(id: number) {
+        await ShoppingListItem.destroy({
+            where: {
+                shoppingListId: id
+            }
+        });
         return await ShoppingList.destroy({
             where: {
                 id: id

@@ -1,4 +1,6 @@
 import Item from "../models/Item";
+import {ItemInterface} from "../interfaces/ItemInterface";
+import ShoppingListItem from "../models/ShoppingListItem";
 
 export default class ItemsRepository {
 
@@ -18,13 +20,18 @@ export default class ItemsRepository {
         return await Item.findAll();
     }
 
-    public async update(itemData) {
+    public async update(itemData: ItemInterface, id: number) {
         return await Item.update(itemData, {
-            where: {id: itemData.id}
+            where: {id: id}
         });
     }
 
     public async delete(id: number) {
+        await ShoppingListItem.destroy({
+            where: {
+                itemId: id
+            }
+        });
         return await Item.destroy({
             where: {
                 id: id

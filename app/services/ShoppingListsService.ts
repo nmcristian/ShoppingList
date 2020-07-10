@@ -2,10 +2,12 @@ import ShoppingListsRepository from '../repositories/ShoppingListsRepository';
 import ShoppingList from "../models/ShoppingList";
 import ItemsRepository from "../repositories/ItemsRepository";
 import ShoppingListItem from "../models/ShoppingListItem";
+import {ShoppingListInterface} from "../interfaces/ShoppingListInterface";
+import {ShoppingListItemInterface} from "../interfaces/ShoppingListItemInterface";
 
 export default class ShoppingListsService {
 
-    public async create(shoppingListData) {
+    public async create(shoppingListData: ShoppingListInterface) {
         try {
             let newShoppingList = ShoppingList.build(shoppingListData);
             return await new ShoppingListsRepository().save(newShoppingList);
@@ -38,20 +40,16 @@ export default class ShoppingListsService {
         }
     }
 
-    public async addOrUpdateItem(shoppingListId: number, itemId: number, quantity: number) {
+    public async addOrUpdateItem(listItemData: ShoppingListItemInterface) {
         try {
             // let shoppingList = await new ShoppingListsRepository().getById(shoppingListId);
             // shoppingList.addItem([await new ItemsRepository().getById(itemId), quantity]);
 
-            let listItem = await new ShoppingListsRepository().findShoppingListItem(shoppingListId, itemId);
+            let listItem = await new ShoppingListsRepository().findShoppingListItem(listItemData.shoppingListId, listItemData.itemId);
             if (listItem) {
-                listItem.quantity = quantity;
+                listItem.quantity = listItemData.quantity;
             } else {
-                listItem = ShoppingListItem.build({
-                    shoppingListId: shoppingListId,
-                    itemId: itemId,
-                    quantity: quantity
-                });
+                listItem = ShoppingListItem.build(listItemData);
             }
 
             return await new ShoppingListsRepository().saveShoppingListItem(listItem);

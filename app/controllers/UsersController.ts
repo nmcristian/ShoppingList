@@ -1,8 +1,9 @@
 import UsersService from '../services/UsersService';
+import {UserInterface} from "../interfaces/UserInterface";
 
 export default class UsersController {
 
-    public async signUp(userData) {
+    public async signUp(userData: UserInterface) {
         try {
             return await new UsersService().createUser(userData);
         } catch (err) {

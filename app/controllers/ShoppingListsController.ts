@@ -1,8 +1,10 @@
 import ShoppingListsService from '../services/ShoppingListsService';
+import {ShoppingListInterface} from "../interfaces/ShoppingListInterface";
+import {ShoppingListItemInterface} from "../interfaces/ShoppingListItemInterface";
 
 export default class ShoppingListsController {
 
-    public async create(shoppingListData) {
+    public async create(shoppingListData: ShoppingListInterface) {
         try {
             return await new ShoppingListsService().create(shoppingListData);
         } catch (err) {
@@ -18,7 +20,7 @@ export default class ShoppingListsController {
         }
     }
 
-    public async getByUserId(id) {
+    public async getByUserId(id: number) {
         try {
             return await new ShoppingListsService().getByUserId(id);
         } catch (err) {
@@ -26,7 +28,7 @@ export default class ShoppingListsController {
         }
     }
 
-    public async update(shoppingListData, id: number) {
+    public async update(shoppingListData: ShoppingListInterface, id: number) {
         try {
             return await new ShoppingListsService().update(shoppingListData, id);
         } catch (err) {
@@ -34,17 +36,17 @@ export default class ShoppingListsController {
         }
     }
 
-    public async addOrUpdateItem(shoppingListId: number, listItemData) {
+    public async addOrUpdateItem(listItemData: ShoppingListItemInterface) {
         try {
-            return await new ShoppingListsService().addOrUpdateItem(shoppingListId, parseInt(listItemData.itemId), parseInt(listItemData.quantity));
+            return await new ShoppingListsService().addOrUpdateItem(listItemData);
         } catch (err) {
             throw err;
         }
     }
 
-    public async removeItem(shoppingListId: number, listItemData) {
+    public async removeItem(shoppingListId: number, listItemData: ShoppingListItemInterface) {
         try {
-            return await new ShoppingListsService().removeItem(shoppingListId, parseInt(listItemData.itemId));
+            return await new ShoppingListsService().removeItem(shoppingListId, listItemData.itemId);
         } catch (err) {
             throw err;
         }
