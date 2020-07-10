@@ -1,0 +1,9 @@
+{
+  "development": {
+    "username": "nita",
+    "password": null,
+    "database": "shopping_list",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}

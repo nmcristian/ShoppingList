@@ -1,0 +1,44 @@
+{"compilerOptions": {
+  "target": "es6",
+  "module": "commonjs",
+  "moduleResolution": "node",
+  "inlineSourceMap": true,
+  "emitDecoratorMetadata": true,
+  "experimentalDecorators": true,
+  "removeComments": false,
+  "noImplicitAny": false,
+  "noResolve": false,
+  "pretty": true,
+  "listFiles": false,
+  "forceConsistentCasingInFileNames": true,
+  "allowUnreachableCode": true,
+  "noUnusedLocals": false,
+  "noImplicitReturns": true,
+  "sourceMap": false,
+  "suppressImplicitAnyIndexErrors": true,
+  "allowUnusedLabels": false,
+  "resolveJsonModule": true,
+  "esModuleInterop": true ,
+  "lib": [
+    "es6",
+    "es2015.promise",
+    "es2017",
+    "dom"
+  ],
+  "baseUrl": ".",
+  "outDir": "./dist",
+  "paths": {
+    "*": [
+      "typings/*"
+    ]
+  },
+  "typeRoots": [
+    "node_modules/@types",
+    "typings"
+  ]
+},
+  "exclude": [
+    "node_modules",
+    "migrations"
+  ]
+}
