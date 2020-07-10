@@ -59,6 +59,20 @@ ShoppingList.init(
         }
 
     }, {
+        scopes: {
+            items: {
+                include: [
+                    {
+                        model: Item,
+                        as: 'items',
+                        through: {
+                            attributes: []
+                        },
+                        required: false
+                    }
+                ]
+            }
+        },
         sequelize,
         tableName: 'ShoppingLists',
         timestamps: true

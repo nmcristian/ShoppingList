@@ -64,6 +64,17 @@ User.init(
         }
 
     }, {
+        scopes: {
+            shoppingLists: {
+                include: [
+                    {
+                        model: ShoppingList,
+                        as: 'shoppingLists',
+                        required: false
+                    }
+                ]
+            }
+        },
         sequelize,
         tableName: 'Users',
         timestamps: true
