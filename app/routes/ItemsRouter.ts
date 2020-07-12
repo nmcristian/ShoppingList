@@ -2,8 +2,12 @@ import * as express from 'express';
 import ItemsController from "../controllers/ItemsController"
 export const ItemsRouter: express.Router = express.Router();
 
+// validations:
+import { validateAuthorizationToken } from './params_validators/AuthorizationTokenValidator';
+import { validateCreateItemParams, validateUpdateItemParams, validateItemIdParam } from './params_validators/ItemsValidator';
+
 // Create new Item
-ItemsRouter.post('/', async (req: express.Request, res: express.Response) => {
+ItemsRouter.post('/', validateCreateItemParams, validateAuthorizationToken, async (req: express.Request, res: express.Response) => {
     try {
         res.status(201).json(await new ItemsController().create(req.body, req.headers.authorization));
 
@@ -16,7 +20,7 @@ ItemsRouter.post('/', async (req: express.Request, res: express.Response) => {
 });
 
 // GET an Item by id
-ItemsRouter.get('/:id', async (req: express.Request, res: express.Response) => {
+ItemsRouter.get('/:id', validateItemIdParam, validateAuthorizationToken, async (req: express.Request, res: express.Response) => {
     try {
         res.status(200).json(await new ItemsController().getById(parseInt(req.params.id), req.headers.authorization));
 
@@ -29,7 +33,7 @@ ItemsRouter.get('/:id', async (req: express.Request, res: express.Response) => {
 });
 
 // GET all Items
-ItemsRouter.get('/', async (req: express.Request, res: express.Response) => {
+ItemsRouter.get('/', validateAuthorizationToken, async (req: express.Request, res: express.Response) => {
     try {
         res.status(200).json(await new ItemsController().getAll(req.headers.authorization));
 
@@ -42,7 +46,7 @@ ItemsRouter.get('/', async (req: express.Request, res: express.Response) => {
 });
 
 // Update an Item
-ItemsRouter.put('/:id', async (req: express.Request, res: express.Response) => {
+ItemsRouter.put('/:id', validateUpdateItemParams, validateItemIdParam, validateAuthorizationToken, async (req: express.Request, res: express.Response) => {
     try {
         res.status(200).json(await new ItemsController().update(req.body, parseInt(req.params.id), req.headers.authorization));
 
@@ -55,7 +59,7 @@ ItemsRouter.put('/:id', async (req: express.Request, res: express.Response) => {
 });
 
 // GET an Item by id
-ItemsRouter.delete('/:id', async (req: express.Request, res: express.Response) => {
+ItemsRouter.delete('/:id', validateItemIdParam, validateAuthorizationToken, async (req: express.Request, res: express.Response) => {
     try {
         res.status(200).json(await new ItemsController().delete(parseInt(req.params.id), req.headers.authorization));
 

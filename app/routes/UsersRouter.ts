@@ -1,10 +1,14 @@
 import * as express from 'express';
 export const UsersRouter: express.Router = express.Router();
 
+// validations:
+import { validateAuthorizationToken } from './params_validators/AuthorizationTokenValidator';
+import { validateSignupParams, validateSigninParams, validateUserIdParam } from './params_validators/UsersValidator';
+
 import UsersController from '../controllers/UsersController';
 
 // Create new user
-UsersRouter.post('/signup', async (req: express.Request, res: express.Response) => {
+UsersRouter.post('/signup', validateSignupParams, async (req: express.Request, res: express.Response) => {
     try {
         res.status(201).json(await new UsersController().signUp(req.body));
 
@@ -17,7 +21,7 @@ UsersRouter.post('/signup', async (req: express.Request, res: express.Response) 
 });
 
 // Log in as user
-UsersRouter.post('/signin', async (req: express.Request, res: express.Response) => {
+UsersRouter.post('/signin', validateSigninParams, async (req: express.Request, res: express.Response) => {
     try {
         res.status(201).json(await new UsersController().signIn(req.body));
 
@@ -30,7 +34,7 @@ UsersRouter.post('/signin', async (req: express.Request, res: express.Response) 
 });
 
 // GET user by id
-UsersRouter.get('/:userId', async (req: express.Request, res: express.Response) => {
+UsersRouter.get('/:userId', validateUserIdParam, validateAuthorizationToken, async (req: express.Request, res: express.Response) => {
     try {
         res.status(200).json(await new UsersController().getUser(parseInt(req.params.userId), req.headers.authorization));
 
@@ -43,7 +47,7 @@ UsersRouter.get('/:userId', async (req: express.Request, res: express.Response) 
 });
 
 // GET all users
-UsersRouter.get('/', async (req: express.Request, res: express.Response) => {
+UsersRouter.get('/', validateAuthorizationToken, async (req: express.Request, res: express.Response) => {
     try {
         res.status(200).json(await new UsersController().getUsers(req.headers.authorization));
 

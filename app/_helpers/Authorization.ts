@@ -32,10 +32,14 @@ export default class Authorization {
                 }
             });
             const isPasswordMatchedWithHash = await bcrypt.compare(signInData.password, user.password);
-            return { bearerToken: (isPasswordMatchedWithHash) ? await this.generateJwt(user.id) : null };
+            if (!isPasswordMatchedWithHash) {
+                throw new CustomError("Authorization issue - wrong username or password.", 401);
+            }
+
+            return { user: user.toJSON(), bearerToken: (isPasswordMatchedWithHash) ? await this.generateJwt(user.id) : null };
         }
         catch (err) {
-            throw new Error("error while comparing hash with a password");
+            throw new CustomError(err.message, err.status || 401);
         }
     }
 

@@ -10,6 +10,7 @@ class User extends Model {
     public lastName: string;
     public email: string;
     public password: string;
+    public role: string;
     public createdAt: Date;
     public readonly updatedAt: Date;
 
@@ -89,6 +90,13 @@ User.init(
         timestamps: true
     }
 );
+
+User.prototype.toJSON =  function () {
+    let values = Object.assign({}, this.get());
+
+    delete values.password;
+    return values;
+}
 
 // relations
 

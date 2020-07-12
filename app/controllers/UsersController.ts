@@ -17,7 +17,6 @@ export default class UsersController {
     public async signIn(signInData: SignInInterface) {
         try {
             return await new Authorization().authenticate(signInData);
-
         } catch (err) {
             throw err;
         }
