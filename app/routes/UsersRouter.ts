@@ -32,7 +32,7 @@ UsersRouter.post('/signin', async (req: express.Request, res: express.Response) 
 // GET user by id
 UsersRouter.get('/:userId', async (req: express.Request, res: express.Response) => {
     try {
-        res.status(200).json(await new UsersController().getUser(parseInt(req.params.userId)));
+        res.status(200).json(await new UsersController().getUser(parseInt(req.params.userId), req.headers.authorization));
 
     } catch (err) {
         res.status(err.status || 500).send({
@@ -45,7 +45,7 @@ UsersRouter.get('/:userId', async (req: express.Request, res: express.Response) 
 // GET all users
 UsersRouter.get('/', async (req: express.Request, res: express.Response) => {
     try {
-        res.status(200).json(await new UsersController().getUsers());
+        res.status(200).json(await new UsersController().getUsers(req.headers.authorization));
 
     } catch (err) {
         res.status(err.status || 500).send({

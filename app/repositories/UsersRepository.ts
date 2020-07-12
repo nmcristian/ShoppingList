@@ -13,13 +13,14 @@ export default class UsersRepository {
         ]).findOne({
             where: {
                 id: id
-            }
+            },
+            attributes: ['id', 'firstName', 'lastName', 'email', 'role', 'createdAt', 'updatedAt']
         });
     }
 
     public async getUsers() {
         return await User.findAll({
-            attributes: ['id', 'firstName', 'lastName', 'email', 'createdAt', 'updatedAt']
+            attributes: ['id', 'firstName', 'lastName', 'email', 'role', 'createdAt', 'updatedAt']
         });
     }
 }

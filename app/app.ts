@@ -15,15 +15,10 @@ app.use(bodyparser.urlencoded({extended:true}));
 
 app.use(useragent.express());
 
-app.get('/', (req, res) => {
-    res.send({'Hello': 'World!'});
-})
-
 
 app.use('/api/users', UsersRouter);
 app.use('/api/shoppinglists', ShoppingListsRouter);
 app.use('/api/items', ItemsRouter);
-
 
 const server = Server.getInstance(app);
 server.startServer();

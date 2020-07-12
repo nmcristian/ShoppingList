@@ -5,7 +5,7 @@ export const ItemsRouter: express.Router = express.Router();
 // Create new Item
 ItemsRouter.post('/', async (req: express.Request, res: express.Response) => {
     try {
-        res.status(201).json(await new ItemsController().create(req.body));
+        res.status(201).json(await new ItemsController().create(req.body, req.headers.authorization));
 
     } catch (err) {
         res.status(err.status || 500).send({
@@ -18,7 +18,7 @@ ItemsRouter.post('/', async (req: express.Request, res: express.Response) => {
 // GET an Item by id
 ItemsRouter.get('/:id', async (req: express.Request, res: express.Response) => {
     try {
-        res.status(200).json(await new ItemsController().getById(parseInt(req.params.id)));
+        res.status(200).json(await new ItemsController().getById(parseInt(req.params.id), req.headers.authorization));
 
     } catch (err) {
         res.status(err.status || 500).send({
@@ -31,7 +31,7 @@ ItemsRouter.get('/:id', async (req: express.Request, res: express.Response) => {
 // GET all Items
 ItemsRouter.get('/', async (req: express.Request, res: express.Response) => {
     try {
-        res.status(200).json(await new ItemsController().getAll());
+        res.status(200).json(await new ItemsController().getAll(req.headers.authorization));
 
     } catch (err) {
         res.status(err.status || 500).send({
@@ -44,7 +44,7 @@ ItemsRouter.get('/', async (req: express.Request, res: express.Response) => {
 // Update an Item
 ItemsRouter.put('/:id', async (req: express.Request, res: express.Response) => {
     try {
-        res.status(200).json(await new ItemsController().update(req.body, parseInt(req.params.id)));
+        res.status(200).json(await new ItemsController().update(req.body, parseInt(req.params.id), req.headers.authorization));
 
     } catch (err) {
         res.status(err.status || 500).send({
@@ -57,7 +57,7 @@ ItemsRouter.put('/:id', async (req: express.Request, res: express.Response) => {
 // GET an Item by id
 ItemsRouter.delete('/:id', async (req: express.Request, res: express.Response) => {
     try {
-        res.status(200).json(await new ItemsController().delete(parseInt(req.params.id)));
+        res.status(200).json(await new ItemsController().delete(parseInt(req.params.id), req.headers.authorization));
 
     } catch (err) {
         res.status(err.status || 500).send({

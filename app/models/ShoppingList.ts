@@ -59,19 +59,17 @@ ShoppingList.init(
         }
 
     }, {
-        scopes: {
-            items: {
-                include: [
-                    {
-                        model: Item,
-                        as: 'items',
-                        through: {
-                            attributes: ['quantity']
-                        },
-                        required: false
-                    }
-                ]
-            }
+        defaultScope: {
+            include: [
+                {
+                    model: Item,
+                    as: 'items',
+                    through: {
+                        attributes: ['quantity']
+                    },
+                    required: false
+                }
+            ]
         },
         sequelize,
         tableName: 'ShoppingLists',

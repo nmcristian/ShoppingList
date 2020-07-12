@@ -8,9 +8,7 @@ export default class ShoppingListsRepository {
     }
 
     public async getById(id: number) {
-        return await ShoppingList.scope([
-            'items'
-        ]).findOne({
+        return await ShoppingList.findOne({
             where: {
                 id: id
             }

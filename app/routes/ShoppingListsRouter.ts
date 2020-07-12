@@ -5,7 +5,7 @@ export const ShoppingListsRouter: express.Router = express.Router();
 // Create new ShoppingList
 ShoppingListsRouter.post('/', async (req: express.Request, res: express.Response) => {
     try {
-        res.status(201).json(await new ShoppingListsController().create(req.body));
+        res.status(201).json(await new ShoppingListsController().create(req.body, req.headers.authorization));
 
     } catch (err) {
         res.status(err.status || 500).send({
@@ -18,7 +18,7 @@ ShoppingListsRouter.post('/', async (req: express.Request, res: express.Response
 // GET a ShoppingList by id
 ShoppingListsRouter.get('/:id', async (req: express.Request, res: express.Response) => {
     try {
-        res.status(200).json(await new ShoppingListsController().getById(parseInt(req.params.id)));
+        res.status(200).json(await new ShoppingListsController().getById(parseInt(req.params.id), req.headers.authorization));
 
     } catch (err) {
         res.status(err.status || 500).send({
@@ -31,7 +31,7 @@ ShoppingListsRouter.get('/:id', async (req: express.Request, res: express.Respon
 // GET all ShoppingLists for a User
 ShoppingListsRouter.get('/user/:userId', async (req: express.Request, res: express.Response) => {
     try {
-        res.status(200).json(await new ShoppingListsController().getByUserId(parseInt(req.params.userId)));
+        res.status(200).json(await new ShoppingListsController().getByUserId(parseInt(req.params.userId), req.headers.authorization));
 
     } catch (err) {
         res.status(err.status || 500).send({
@@ -44,7 +44,7 @@ ShoppingListsRouter.get('/user/:userId', async (req: express.Request, res: expre
 // Update a ShoppingList
 ShoppingListsRouter.put('/:id', async (req: express.Request, res: express.Response) => {
     try {
-        res.status(200).json(await new ShoppingListsController().update(req.body, parseInt(req.params.id)));
+        res.status(200).json(await new ShoppingListsController().update(req.body, parseInt(req.params.id), req.headers.authorization));
 
     } catch (err) {
         res.status(err.status || 500).send({
@@ -57,11 +57,14 @@ ShoppingListsRouter.put('/:id', async (req: express.Request, res: express.Respon
 // Add item to the ShoppingList or update its quantity
 ShoppingListsRouter.put('/:shoppingListId/add_item', async (req: express.Request, res: express.Response) => {
     try {
-        res.status(200).json(await new ShoppingListsController().addOrUpdateItem({
-            shoppingListId: parseInt(req.params.shoppingListId),
-            itemId: parseInt(req.body.itemId),
-            quantity: parseInt(req.body.quantity)
-        }));
+        res.status(200).json(await new ShoppingListsController().addOrUpdateItem(
+            {
+                shoppingListId: parseInt(req.params.shoppingListId),
+                itemId: parseInt(req.body.itemId),
+                quantity: parseInt(req.body.quantity)
+            },
+            req.headers.authorization
+        ));
 
     } catch (err) {
         res.status(err.status || 500).send({
@@ -74,7 +77,7 @@ ShoppingListsRouter.put('/:shoppingListId/add_item', async (req: express.Request
 // Remove item from the ShoppingList
 ShoppingListsRouter.delete('/:shoppingListId/remove_item', async (req: express.Request, res: express.Response) => {
     try {
-        res.status(200).json(await new ShoppingListsController().removeItem(parseInt(req.params.shoppingListId), req.body));
+        res.status(200).json(await new ShoppingListsController().removeItem(parseInt(req.params.shoppingListId), req.body, req.headers.authorization));
 
     } catch (err) {
         res.status(err.status || 500).send({
@@ -87,7 +90,7 @@ ShoppingListsRouter.delete('/:shoppingListId/remove_item', async (req: express.R
 // DELETE a ShoppingList by id
 ShoppingListsRouter.delete('/:id', async (req: express.Request, res: express.Response) => {
     try {
-        res.status(200).json(await new ShoppingListsController().delete(parseInt(req.params.id)));
+        res.status(200).json(await new ShoppingListsController().delete(parseInt(req.params.id), req.headers.authorization));
 
     } catch (err) {
         res.status(err.status || 500).send({

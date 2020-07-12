@@ -1,11 +1,13 @@
 import * as jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { JWTInterface } from '../interfaces/JWTInterface';
-import {SignInInterface} from "../interfaces/SignInInterface";
+import { SignInInterface } from '../interfaces/SignInInterface';
+import CustomError from './CustomError'
 
 import User from "../models/User";
+import ShoppingList from "../models/ShoppingList";
 
-export default class AuthorizationService {
+export default class Authorization {
 
     public async hashPassword(password) {
         let salt = await bcrypt.genSalt(10);
@@ -77,16 +79,64 @@ export default class AuthorizationService {
             throw new CustomError(err.message, err.status || 401);
         }
     }
-}
 
-export class CustomError extends Error {
+    public async authorize(roles: Array<string>, bearerToken: string) {
+        try {
+            let user = await this.authorizeUser(bearerToken);
+            if (!roles.includes(user.role)) {
+                throw new CustomError("You do not have enough permissions to access this resource.", 401);
+            }
+            return user;
+        } catch (err) {
+            throw new CustomError(err.message, err.status || 401);
+        }
+    }
 
-    public status: number;
+    public async authorizeResourceAccess(resourceId: number, resourceType: string, bearerToken: string) {
+        try {
+            let user = await this.authorizeUser(bearerToken);
+            if (user === null) {
+                throw new CustomError("Authorization issue - user not found.", 404);
+            }
+            if (user.role === 'Admin') {
+                return;
+            }
 
-    constructor(message: string, status: number) {
+            let ownsResource;
+            switch(resourceType) {
+                case 'User': {
+                    ownsResource = (user.id === resourceId);
+                    break;
+                }
+                case 'ShoppingList': {
+                    let shoppingList = await ShoppingList.findOne({
+                        where: {
+                            id: resourceId
+                        }
+                    });
+                    if (shoppingList) {
+                        ownsResource = (user.id === shoppingList.userId);
+                    } else {
+                        throw new CustomError("ShoppingList not found.", 404);
+                    }
+                    ownsResource = (user.id === shoppingList.userId);
+                    break;
+                }
+                case 'Item': {
+                    ownsResource = true;
+                    break;
+                }
+                default: {
+                    ownsResource = false;
+                    break;
+                }
+            }
 
-        super(message);
-        this.status = status;
-
+            if (!ownsResource) {
+                throw new CustomError("Not authorized to access this resource.", 401);
+            }
+        } catch (err) {
+            throw new CustomError(err.message, err.status || 401);
+        }
     }
 }
