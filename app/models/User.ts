@@ -50,6 +50,15 @@ User.init(
             field: 'password',
             allowNull: false
         },
+        role: {
+            type: DataTypes.STRING,
+            field: 'role',
+            allowNull: false,
+            defaultValue: 'User',
+            validate: {
+                isIn: [['Admin', 'User']]
+            }
+        },
         createdAt: {
             type: DataTypes.DATE,
             field: 'created_at',
