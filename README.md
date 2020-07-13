@@ -21,5 +21,6 @@ You can sign in:
 - as Admin: idag.test@yopmail.com / 12345678
 
 Sign in & sign up APIs are accessible to everyone.
-As Admin you will have access to any API.
+Most likely, you will have to replace the token in other API calls with the one returned by /signin.
+As Admin you will have access to any API, including Read any User by id.
 As User you will have access to CRUD ShoppingLists, Read Items, Read User by id (own User object only).
